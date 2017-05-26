@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Day Tripper San Diego</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.18.1/moment.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="jumbotron" style="background: black; color: white">
+            <h1 class="text-center">Day Tripper San Diego
+        </h1>
+            <h4 class="text-center">A fun way to schedule your SD road trip</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>User Info</strong></h3>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- Entry Form -->
+                    <form>
+                        <div class="form-group">
+                            <label for="name-input">Name</label>
+                            <input class="form-control" id="name-input" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="destination-input">Destination</label>
+                            <input class="form-control" id="role-input" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label for="start-input">Start Date (DD/MM/YY - ex: 01/01/89)</label>
+                            <select class="form-control">
+                                <option value="one">One</option>
+                                <option value="two">Two</option>
+                                <option value="three">Three</option>
+                                <option value="four">Four</option>
+                                <option value="five">Five</option>
+                            </select>
+                            <!-- <input class="form-control" id="start-input" type="text"> -->
+                        </div>
+                        <div class="form-group">
+                            <label for="rate-input">Interests</label>
+                            <select class="form-control">
+                                <option value="one">One</option>
+                                <option value="two">Two</option>
+                                <option value="three">Three</option>
+                                <option value="four">Four</option>
+                                <option value="five">Five</option>
+                            </select>
+                        </div>
+                        <!-- 
+</div> -->
+                        <button class="btn btn-primary" id="add-employee-btn" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <!-- </div>
+        <div class="row"> -->
+            <div class="col-md-9">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Main map screen/image</strong></h3>
+                    </div>
+                    <a href="http://placehold.it"><img src="http://placehold.it/845x500"></a>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
