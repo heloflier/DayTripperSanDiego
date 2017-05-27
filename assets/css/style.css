@@ -42,6 +42,10 @@ img {
     max-height: 100%;
 }
 
+#map {
+        visibility: hidden;
+      }
+
 /*
 #mapPic {
 	max-width: 100%;
