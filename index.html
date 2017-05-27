@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPEhtml>
 <html lang="en">
 
 <head>
@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day Tripper San Diego</title>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-   <!--  <link rel="stylesheet" type="text/css" href="assets/images"> -->
+    <!--  <link rel="stylesheet" type="text/css" href="assets/images"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -14,9 +14,10 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script> -->
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.18.1/moment.min.js"></script>
+    <script src="assets/javascript/fabio.js"></script>
 </head>
 
 <body>
@@ -59,7 +60,7 @@
                         </div>
                         <div class="form-group">
                             <label for="rate-input">Interests</label>
-                            <select class="form-control">
+                            <select class="form-control" <button type="button" class="btn btn-link">Link</button>>
                                 <option value="one">Outdoor Fun</option>
                                 <option value="two">Nightlife</option>
                                 <option value="three">Family Fun</option>
@@ -81,11 +82,14 @@
                         <h3 class="panel-title" id="mapPic"><strong>Main map screen/image</strong></h3>
                     </div>
 
+                    
+
                     <iframe
                       width="100%" height="400" frameborder="0" style="border:0" 
                       id="map1">
                     </iframe>
                   
+
                 </div>
             </div>
         </div>
