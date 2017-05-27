@@ -21,6 +21,12 @@
     float: right;
     font-size: 50px;
     width: 50%;
+    text-align: center;
+
+}
+
+.icon {
+	display: inline-block;
 }
 
 .text-center {
