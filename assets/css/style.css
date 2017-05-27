@@ -17,6 +17,10 @@
     }
 }
 
+.date {
+    text-align: center;
+}
+
 #wx {
     font-size: 12px;
     width: 50%;

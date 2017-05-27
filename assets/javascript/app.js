@@ -36,19 +36,20 @@ $.ajax({
           console.log("Lng: "+long);
 
           function initMap() {
-		  map = new google.maps.Map(document.getElementById('map1'), {
-		  });
+			  map = new google.maps.Map(document.getElementById('map1'), {
+			  });
 
-		  var service = new google.maps.places.PlacesService(map);
-          service.nearbySearch({
-		  location: {lat: lat, lng: long},
-		  radius: 500,
-    	  type: ['food'],
-    	  name: "asian"
-		  }, callback);
-		}
-		initMap();
-		weatherMAP(lat,long);
+			  var service = new google.maps.places.PlacesService(map);
+	          service.nearbySearch({
+			  location: {lat: lat, lng: long},
+			  radius: 500,
+	    	  type: ['food'],
+	    	  name: "asian"
+			  }, callback);
+		  }
+
+		  initMap();
+		  weatherMAP(lat,long);
 
 })
 
@@ -69,9 +70,6 @@ function callback(results, status) {
 
 //WEATHER INFO
 // day tripper san diego
-// project
-// $("button").on("click", function() {
-    //   var person = $(this).attr("data-person");
 
 function weatherMAP(latitude,longitude){
     console.log('start');
@@ -101,9 +99,16 @@ function weatherMAP(latitude,longitude){
       });
   };
 
-  
+
+var day =[];
+console.log("DATE:"+moment().format('dddd MMM Do'));
+
+
+
 function callWeather(response) {
       
+	  
+
       $('#wx').empty();
       for (var i = 0; i < 5; i++) {
         var wx = response;
@@ -112,16 +117,26 @@ function callWeather(response) {
           .weather[0].description;
         var icon = wx.list[i]
           .weather[0].icon;
-        console.log(city);
-        console.log(weather);
-        console.log(icon);
+
+        //Date and weather formattinig  
+        var td = $("<td>");
+        var th = $("<th>");
+
+        //GET 5 DAYS OF WEEK FROM NOW
+        var date = moment().add(i, 'days');
+
+        th.addClass("date");
+        th.append(moment(date).format('dddd MM/DD'));
+
 
         var gifDiv = $("<div class='icon'>");
         var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
         var p = $("<p>").append('<span>' + weather + '</span>' );
         gifDiv.append("<img src='" + iconUrl  + "'>");
         gifDiv.append(p);
-        $('#wx').append(gifDiv);
+        td.append(gifDiv);
+        $("#wx").append(td);
+        $("#5days").append(th);
       };
 };
 
