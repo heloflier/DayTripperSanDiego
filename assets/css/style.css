@@ -18,14 +18,14 @@
 }
 
 #wx {
-    float: right;
-    font-size: 50px;
+    font-size: 12px;
     width: 50%;
     text-align: center;
 }
 
 .icon {
     display: inline-block;
+    margin: 5px 10px;
 }
 
 .text-center {
