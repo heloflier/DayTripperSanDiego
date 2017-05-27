@@ -1,6 +1,5 @@
 * {
     box-sizing: border-box;
-    background-image: url("paper.gif");
 }
 
 @media only screen and (max-width: 500px) {
@@ -11,29 +10,31 @@
         }
         h1 .text-center {
             color: yellow;
-        }    .jumbotron {
-    			color: green;
-
+        }
+        .jumbotron {
+            color: green;
+        }
     }
 }
-}
+
 #wx {
     float: right;
     font-size: 50px;
     width: 50%;
     text-align: center;
-
 }
 
 .icon {
-	display: inline-block;
+    display: inline-block;
 }
 
 .text-center {
     font-family: 'Montserrat', sans-serif;
 }
 
+
 }
+
 /*.panel-title {
     width: 100%;
 }*/
