@@ -1,49 +1,62 @@
+
+
 console.log("hello");
+
+
 
 //Imbedded map
 var embedAPIkey = "AIzaSyADcGH--swBBpg6-7tYcluAngele15Sz6M";
 
 
 var userinput   = "hungtington beach";
-$("#map").attr("src","https://www.google.com/maps/embed/v1/place?key="+embedAPIkey+"&q="+userinput);
+$("#map1").attr("src","https://www.google.com/maps/embed/v1/place?key="+embedAPIkey+"&q="+userinput);
 
 var lat = "";
 var long = "";
 //Google long. lat. coordinates
 var coordinatequeryURL = "https://maps.googleapis.com/maps/api/geocode/json?address="+userinput+"&key="+embedAPIkey;
 var nearbyqueryURL = "";
+var map;
+function initMap() {
+	// body...
+}
 
 $.ajax({
           url: coordinatequeryURL,
           method: "GET"
         }).done(function(response) {
           console.log(response);
-          lat = String(response.results[0].geometry.location.lat);
-          long = String(response.results[0].geometry.location.lng);
+          lat = (response.results[0].geometry.location.lat);
+          long = (response.results[0].geometry.location.lng);
           console.log("Lat: "+lat);
           console.log("Lng: "+long);
-          nearbyqueryURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+long+"&radius="+radius+"&types="+typesofActivity+"&name="+name+"&key="+embedAPIkey;
 
+          function initMap() {
+		  map = new google.maps.Map(document.getElementById('map1'), {
+		  });
 
-        $.ajax({
-        url: nearbyqueryURL,
-        method: "GET"
-        }).done(function(response) {
-          	console.log(response);
-          	console.log("1st: "+response.results[0].name);
-          	console.log(response.results[0].rating);
-          	console.log("2nd: "+response.results[1].name);
-          	console.log(response.results[1].rating);
+		  var service = new google.maps.places.PlacesService(map);
+          service.nearbySearch({
+		  location: {lat: lat, lng: long},
+		  radius: 500,
+    	  type: ['food'],
+    	  name: "asian"
+		  }, callback);
+		}
 
-		})
+		
+		initMap();
 })
 
 //Google nearby Places
-var typesofActivity = "food";
-var radius          = 500;
-var name            = ""
+
+function callback(results, status) {
+	if (status === google.maps.places.PlacesServiceStatus.OK) {
+	console.log(results);	
+	console.log(results[0].name);
+	console.log(results[1].name);
+	}
+}
 
 
-
-
-
+      
