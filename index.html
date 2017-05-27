@@ -3,8 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day Tripper San Diego</title>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+   <!--  <link rel="stylesheet" type="text/css" href="assets/images"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -23,6 +27,8 @@
         </h1>
             <h4 class="text-center">A fun way to schedule your SD road trip</h4>
         </div>
+        <!-- spot for weather and map and other stuff -->
+        <div id="wx">We'll put items here</div>
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-primary">
@@ -49,7 +55,6 @@
                                 <option value="three">00/00/00</option>
                                 <option value="four">00/00/00</option>
                                 <option value="five">00/00/00</option>
-
                             </select>
                             <!-- <input class="form-control" id="start-input" type="text"> -->
                         </div>
@@ -74,9 +79,11 @@
             <div class="col-md-9">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Main map screen/image</strong></h3>
+                        <h3 class="panel-title" id="mapPic"><strong>Main map screen/image</strong></h3>
                     </div>
-                    <img src="http://www.visitcalifornia.com/sites/default/files/styles/welcome_image/public/SanDiego_Skyline_JohnBahu_1280x642_downsized.jpg"></a>
+                    <!-- pic goes here -->
+                    <img src="http://www.visitcalifornia.com/sites/default/files/styles/welcome_image/public/SanDiego_Skyline_JohnBahu_1280x642_downsized.jpg">
+                  
                 </div>
             </div>
         </div>
