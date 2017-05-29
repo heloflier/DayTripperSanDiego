@@ -14,9 +14,10 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-    <!-- <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script> -->
     <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="assets/javascript/fabio.js"></script>
+    <!-- Firebase Reference -->
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    
 </head>
 
 <body>
@@ -26,6 +27,31 @@
         </h1>
             <h4 class="text-center">A fun way to schedule your SD road trip</h4>
         </div>
+
+<!-- Add user  -->
+      <div>
+        <form class="form-inline">
+          <div class="form-group" id="auth">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Me@somewhere.com">
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="*****">
+            </div>
+            <button type="button" id="btn-login" class="btn btn-primary">Log In</button>
+            <span>not signed up yet?</span>
+            <button type="button" id="btn-signup" class="btn btn-default">Sign Up</button>
+          </div>
+          <div class="form-group" id="greeting">
+            <button type="button" id="btn-logout" class="btn btn-default">Log Out</button>
+            
+          </div>
+        </form>
+        <br>
+      </div>
         
         <div class="row">
             <div class="col-md-3">
@@ -42,31 +68,32 @@
                             <input class="form-control" id="name-input" type="text">
                         </div>
                         <div class="form-group">
-                            <label for="destination-input">Destination</label>
-                            <input class="form-control" id="role-input" type="text">
+                            <label for="dest-input">Destination</label>
+                            <input class="form-control" id="dest-input" type="text">
                         </div>
-                        <div class="form-group">
-                            <label for="start-input">Start Date (DD/MM/YY - ex: 01/01/89)</label>
-                            <select class="form-control">
-                                <option value="one">00/00/00</option>
-                                <option value="two">00/00/00</option>
-                                <option value="three">00/00/00</option>
-                                <option value="four">00/00/00</option>
-                                <option value="five">00/00/00</option>
+                        <!-- <input class="form-control" id="start-input" type="text"> -->
+                        <!-- <div class="form-group">
+                            <label for="start-input">Date</label>
+                            <select class="form-control" class='dates'>
+                                <option id='date0' value="0">00/00/00</option>
+                                <option id='date1' value="1">00/00/00</option>
+                                <option id='date2' value="2">00/00/00</option>
+                                <option id='date3' value="3">00/00/00</option>
+                                <option id='date4' value="4">00/00/00</option>
                             </select>
-                            <!-- <input class="form-control" id="start-input" type="text"> -->
-                        </div>
+                        </div> -->
+
                         <div class="form-group">
-                            <label for="rate-input">Interests</label>
-                            <select class="form-control" <button type="button" class="btn btn-link">Link</button>>
-                                <option value="one">Outdoor Fun</option>
-                                <option value="two">Nightlife</option>
-                                <option value="three">Family Fun</option>
-                                <option value="four">Dining</option>
-                                <option value="five">Sports</option>
+                            <label for="int-input">Interests</label>
+                            <select id='int-input' class="form-control" type="button" class="btn btn-link interests">Link</button>>
+                                <option value="1">Outdoor Fun</option>
+                                <option value="2">Nightlife</option>
+                                <option value="3">Family Fun</option>
+                                <option value="4">Dining</option>
+                                <option value="5">Sports</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" id="add-employee-btn" type="submit">Submit</button>
+                        <button class="btn btn-primary" id="input-btn" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
@@ -109,6 +136,7 @@
         </div>
 </body>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
+<script src="assets/javascript/fabio.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADcGH--swBBpg6-7tYcluAngele15Sz6M&libraries=places&callback=initMap" async defer></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.18.1/moment.min.js"></script>
 </html>
