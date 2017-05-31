@@ -92,21 +92,8 @@ function weatherMAP(latitude,longitude){
     var lat = latitude;
     var long = longitude;
     var queryURL = 
-        "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
+        "https://crossorigin.me/http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
         "&lon=" + long + "&cnt=5" + "&APPID=" + api;
-    /*if (document.location.protocol.indexOf('file') >= 0) {
-      console.log(document.location.protocol.indexOf());
-      var queryURL = 
-        "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
-        "&lon=" + long + "&cnt=5" + "&APPID=" + api;
-    }
-    else {
-      var queryURL = 
-        "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
-        "&lon=" + long + "&cnt=5" + "&APPID=" + api;
-        // "https://api.openweathermap.org/data/2.5/forecast?id=2172797&APPID=63f2fa3cfc2e61381b22c657bc65c0cf"
-    };*/
-
     $.ajax({
         url: queryURL,
         method: "GET"
