@@ -17,7 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.18.1/moment.min.js"></script>
-    <script src="assets/javascript/fabio.js"></script>
 </head>
 
 <body>
@@ -60,26 +59,25 @@
                 </div>
                 <div class="panel-body">
                     <!-- Entry Form -->
-                    <form>
-                        <div class="form-group">
-                            <label for="name-input">Name</label>
-                            <input class="form-control" id="name-input" type="text">
-                        </div>
+                    <form id="searchplaces">
                         <div class="form-group">
                             <label for="destination-input">Destination</label>
-                            <input class="form-control" id="role-input" type="text">
+                            <input class="form-control" type="text" id="destination">
                         </div>
                         <div class="form-group">
                             <label for="rate-input">Interests</label>
-                            <select class="form-control">
-                                <option value="one">Outdoor Fun</option>
-                                <option value="two">Nightlife</option>
-                                <option value="three">Family Fun</option>
-                                <option value="four">Dining</option>
-                                <option value="five">Sports</option>
+                            <select class="form-control" id="options">
+                                <option class="options" value="food">Food</option>
+                                <option class="options" value="store">Store</option>
+                                <option class="options" value="park">Park</option>
+                                <option class="options" value="night_club">Night Club</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" id="add-employee-btn" type="submit">Submit</button>
+                        <div class="form-group">
+                            <label for="destination-input">Name of point of interest</label>
+                            <input class="form-control" type="text" id="namepoi">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
                     </form>
                 </div>
             </div>

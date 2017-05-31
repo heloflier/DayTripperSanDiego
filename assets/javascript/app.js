@@ -7,8 +7,27 @@ console.log("hello");
 //Imbedded map
 var embedAPIkey = "AIzaSyADcGH--swBBpg6-7tYcluAngele15Sz6M";
 
+//We need initMap for google library to work, doesn't necessarily need to define just declaration
+function initMap() {
+	// body...
+};
 
-var userinput   = "hungtington beach";
+var userinput;
+var PoI = "restaurant";
+var nameofPOI = "";
+
+$("#options").on("change", function(){
+	PoI = $(this).val();
+})
+
+$("#searchplaces").on("submit", function(){
+	userinput   = $("#destination").val();
+	console.log(userinput);
+	nameofPOI   = $("#namepoi").val();
+	event.preventDefault();
+
+
+
 $("#map1").attr("src","https://www.google.com/maps/embed/v1/place?key="+embedAPIkey+"&q="+userinput);
 
 var lat;
@@ -18,10 +37,7 @@ var coordinatequeryURL = "https://maps.googleapis.com/maps/api/geocode/json?addr
 var nearbyqueryURL = "";
 var map;
 
-//We need initMap for google library to work, doesn't necessarily need to define just declaration
-function initMap() {
-	// body...
-}
+
 
 
 //This AJAX call the google geocoding API for the user's long/lat and find places/weather near that coordinates
@@ -34,7 +50,7 @@ $.ajax({
           long = (response.results[0].geometry.location.lng);
           console.log("Lat: "+lat);
           console.log("Lng: "+long);
-
+          console.log("Point of Interest: "+PoI);
           function initMap() {
 			  map = new google.maps.Map(document.getElementById('map1'), {
 			  });
@@ -43,8 +59,8 @@ $.ajax({
 	          service.nearbySearch({
 			  location: {lat: lat, lng: long},
 			  radius: 500,
-	    	  type: ['food'],
-	    	  name: "asian"
+	    	  type: [PoI],
+	    	  name: nameofPOI
 			  }, callback);
 		  }
 
@@ -52,9 +68,8 @@ $.ajax({
 		  weatherMAP(lat,long);
 
 })
-
 //Google nearby Places
-
+});
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
 		console.log(results);	
@@ -84,7 +99,7 @@ function weatherMAP(latitude,longitude){
     }
     else {
       var queryURL = 
-        "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
+        "https://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
         "&lon=" + long + "&cnt=5" + "&APPID=" + api;
         // "https://api.openweathermap.org/data/2.5/forecast?id=2172797&APPID=63f2fa3cfc2e61381b22c657bc65c0cf"
     };
