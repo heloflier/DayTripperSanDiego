@@ -119,7 +119,7 @@ function weatherMAP(latitude,longitude){
     var lat = latitude;
     var long = longitude;
     var queryURL = 
-        "https://crossorigin.me/http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
+        "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat +  
         "&lon=" + long + "&cnt=5" + "&APPID=" + api;
     $.ajax({
         url: queryURL,
