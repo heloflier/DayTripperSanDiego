@@ -17,34 +17,16 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 function showLogon() {
-    var user = firebase.auth().currentUser;
     $('#auth').hide();
     $('#greeting > span').empty();
-    $("#greeting").prepend("<span>Nice to see you, " +
-            user.displayName + 
-            " - now you can look at your saved Points of Interest </span>");
-    $('#btn-user').show();
+    $("#greeting").prepend("<span>Nice to see you again - now you can look at your saved Points of Interest </span>");
     $('#btn-logout').show();
-    // console.log(JSON.stringify(user));
 };
 
 function showSignIn() {
     $('#auth').show();
     $('#greeting > span').empty();
-    $('#btn-user').hide();
     $('#btn-logout').hide();
-};
-
-function addName(name) {
-
-    var user = firebase.auth().currentUser;
-    user.updateProfile({
-      displayName: name,
-    }).then(function() {
-      // Update successful.
-    }, function(error) {
-      alert(errorMessage);
-    });
 };
 
 // ============================================================
@@ -116,7 +98,6 @@ $('#btn-login').on("click", function() {
 });
 
 $('#btn-signup').on("click", function() {
-    var name = $('#name').val().trim();
     var email = $('#email').val().trim();
     var pass = $('#password').val().trim();
     console.log('login ' + email);
@@ -129,7 +110,7 @@ $('#btn-signup').on("click", function() {
     // create user
     var promise = auth.createUserWithEmailAndPassword(email, pass)
         .then(function(result) {
-            addName(name);
+
             showLogon();
         })
         .catch(function (error) {
@@ -143,28 +124,10 @@ $('#btn-logout').on("click", function() {
     $('#password').val('');
 });
 
-$(document.body).on("click", '.btn-save', function() {
-    console.log('save');
-    if ($(this).text() == "Save") {
-        console.log($(this).siblings('h3').text());
-    }
-    else {
-
-    };
-    // firebase.auth().signOut();
-    // $('#email').val('');
-    // $('#password').val('');
-});
-
-
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
     showLogon();
-    var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
-        console.log('user'+user);
-        $('.div-save').append(btn);
-
     // ================= TO DO: add below func when integrated
     // populateList();
     // =======================================================
@@ -172,8 +135,6 @@ firebase.auth().onAuthStateChanged(function(user) {
   else {
     // No user is signed in.
     showSignIn();
-    $('.btn-save').remove();
-
     // ================= TO DO: add below func when integrated
     // populateList();
     // =======================================================
