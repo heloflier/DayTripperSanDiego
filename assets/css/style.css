@@ -17,6 +17,10 @@
     }
 }
 
+#btn-logout {
+    float: right;
+}
+
 .date {
     text-align: center;
 }
