@@ -75,19 +75,11 @@ function callback(results, status) {
 		console.log(results);	
 		console.log(results[0].name);
 		console.log(results[1].name);
-
-    var user = firebase.auth().currentUser;
-
+// random comment
 		for(var i=0; i<results.length;i++){
       var name = results[i].name;
       var btnDiv = $("<div class='div-save'>");
         		 
-      if (user) {
-        var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
-        console.log('user'+user);
-        btnDiv.append(btn);
-      };
-
       btnDiv.append("<h3>"+name+"</h3>");
   		btnDiv.append("<p>Rating: "+results[i].rating+'<br><br>');
       
