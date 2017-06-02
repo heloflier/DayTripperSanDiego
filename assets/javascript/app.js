@@ -77,16 +77,17 @@ function callback(results, status) {
 		console.log(results[1].name);
 		console.log("PHOTOS");
 		console.log(picUrl);
-		 $(".placespanel").empty(); 
+		$(".placespanel").empty(); 
 		for(var i=0; i<results.length;i++){
 			try{
-				var title = $("<div>");
+				//Title of place
+				var title = $("<div class='div-save'>");
 				title.append("<h3>"+results[i].name+"</h3>");
-
+				//Rating on title if exist
 				if(results[i].rating!=undefined){
 					title.append("Rating: "+results[i].rating);
 				}
-
+				//Address on Title
 				title.append("<p>"+results[i].vicinity+"</p>");
 				title.css("background-color","black");
 				title.css("color","white");
