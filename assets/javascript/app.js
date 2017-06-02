@@ -13,7 +13,7 @@ function initMap() {
 };
 
 var userinput;
-var PoI = "restaurant";
+var PoI = "food";
 var nameofPOI = "";
 
 $("#options").on("change", function(){
@@ -75,10 +75,37 @@ function callback(results, status) {
 		console.log(results);	
 		console.log(results[0].name);
 		console.log(results[1].name);
-
+		console.log("PHOTOS");
+		console.log(picUrl);
+		 $(".placespanel").empty(); 
 		for(var i=0; i<results.length;i++){
-		$(".mappanel").append("<h3>"+results[i].name+"</h3>");
-		$(".mappanel").append("Rating: "+results[i].rating);
+			try{
+				var title = $("<div>");
+				title.append("<h3>"+results[i].name+"</h3>");
+
+				if(results[i].rating!=undefined){
+					title.append("Rating: "+results[i].rating);
+				}
+
+				title.append("<p>"+results[i].vicinity+"</p>");
+				title.css("background-color","black");
+				title.css("color","white");
+				title.css("text-align","center");
+				title.css("padding","3px 0px 7px 0px");
+				title.css("margin","15px 0px 0px 0px");
+				$(".placespanel").append(title);
+
+				//Getting Picture of each place and append it to div
+				var imgDiv = $("<div>")
+				var picUrl = results[i].photos[0].getUrl({'maxWidth': 1000});
+				var picDiv = $("<img>");
+				picDiv.attr("src", picUrl);
+				picDiv.css("max-width","100%");
+				imgDiv.append(picDiv);
+				$(".placespanel").append(imgDiv);
+			}
+			catch(err){
+			}
 		}
 	}
 }
@@ -115,6 +142,7 @@ function callWeather(response) {
 	  
 
       $('#wx').empty();
+      $("#5days").empty();
       for (var i = 0; i < 5; i++) {
         var wx = response;
         var city = wx.city.name;
