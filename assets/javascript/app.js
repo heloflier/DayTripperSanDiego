@@ -85,10 +85,11 @@ function callback(results, status) {
 				title.append("<h3>"+results[i].name+"</h3>");
 				//Rating on title if exist
 				if(results[i].rating!=undefined){
-					title.append("Rating: "+results[i].rating);
+					title.append("<p class='poi-rating'>Rating: "
+						+results[i].rating+"</p>");
 				}
 				//Address on Title
-				title.append("<p>"+results[i].vicinity+"</p>");
+				title.append("<p class='poi-address'>"+results[i].vicinity+"</p>");
 				title.css("background-color","black");
 				title.css("color","white");
 				title.css("text-align","center");
@@ -112,7 +113,6 @@ function callback(results, status) {
 }
 
 //WEATHER INFO
-// day tripper san diego
 
 function weatherMAP(latitude,longitude){
     console.log('start');
