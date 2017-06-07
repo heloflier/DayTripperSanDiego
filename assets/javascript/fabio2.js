@@ -7,12 +7,12 @@
 //  =================================================
 
 var config = {
-    apiKey: "AIzaSyDeRYoE5fWhh3ZA7aN-UDKOiNgP2hI_N6A",
-    authDomain: "daytrippersandiego.firebaseapp.com",
-    databaseURL: "https://daytrippersandiego.firebaseio.com",
-    projectId: "daytrippersandiego",
-    storageBucket: "daytrippersandiego.appspot.com",
-    messagingSenderId: "616812924303"
+apiKey: "AIzaSyDeRYoE5fWhh3ZA7aN-UDKOiNgP2hI_N6A",
+authDomain: "daytrippersandiego.firebaseapp.com",
+databaseURL: "https://daytrippersandiego.firebaseio.com",
+projectId: "daytrippersandiego",
+storageBucket: "daytrippersandiego.appspot.com",
+messagingSenderId: "616812924303"
 };
 
 firebase.initializeApp(config);
@@ -32,6 +32,7 @@ function showLogon() {
     $("#greeting").prepend("<span>Nice to see you, " 
             + user.displayName + 
             " - now you can look at your saved Points of Interest </span>");
+    $('#greeting').show();
     $('#btn-user').show();
     $('#btn-logout').show();
 };
@@ -94,6 +95,7 @@ function savedPoi() {
 //  =================================================
 
 firebase.auth().onAuthStateChanged(function(user) {
+    console.log('onAuthStateChanged');
   if (user) {
     // User is signed in.
     showLogon();
@@ -112,13 +114,15 @@ firebase.auth().onAuthStateChanged(function(user) {
 //  event handler for login/Register link
 //  =================================================
 
-$('.flipper-btn').click(function(){
+$('.flipper-btn').click(function(event){
+    event.preventDefault();
     console.log('flip = ', $('.flip').find('.card'));
     $('.flip').find('.card').toggleClass('flipped');
     console.log("flipped");
 });
 
-$('#btn-login').on("click", function() {
+$('#btn-login').on("click", function(event) {
+    event.preventDefault();
     var email = $('#email').val().trim();
     var pass = $('#password').val().trim();
     console.log('login ' + email);
@@ -132,7 +136,8 @@ $('#btn-login').on("click", function() {
         .then(function(result) {
             showLogon();
             console.log('uid ' + auth.currentUser.uid);
-            savedPoi()
+            savedPoi();
+            $("#myModal").modal("hide");
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -150,12 +155,13 @@ $('#btn-login').on("click", function() {
 //  Sign-In event
 //  =================================================
 
-$('#btn-signup').on("click", function() {
-    var name = $('#name').val().trim();
-    var email = $('#email').val().trim();
-    var pass = $('#password').val().trim();
-    console.log('login ' + email);
-    console.log('password ' + password);
+$('#btn-signup').on("click", function(event) {
+    event.preventDefault();
+    var name = $('#name-signup').val().trim();
+    var email = $('#email-signup').val().trim();
+    var pass = $('#password-signup').val().trim();
+    console.log('email-signup ' + email);
+    console.log('password-signup ' + password);
 
     var auth = firebase.auth();
     console.log('auth ' + auth);
@@ -166,6 +172,7 @@ $('#btn-signup').on("click", function() {
             addName(name);
             showLogon();
             savedPoi();
+            $("#myModal").modal("hide");
         })
         .catch(function (error) {
             console.log(error);
