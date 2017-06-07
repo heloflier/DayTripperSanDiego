@@ -1,8 +1,11 @@
 //
-// USER INPUT and authentication
-// ========================================================== 
+//  USER INPUT and authentication
+//  ========================================================== 
+//
+//  =================================================
+//  Initialize Firebase
+//  =================================================
 
-// Initialize Firebase
 var config = {
     apiKey: "AIzaSyDeRYoE5fWhh3ZA7aN-UDKOiNgP2hI_N6A",
     authDomain: "daytrippersandiego.firebaseapp.com",
@@ -15,59 +18,105 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var snapshot = "";
+
+//  =================================================
+//  function to show appropriate information 
+//  and buttons on log-on
+//  =================================================
 
 function showLogon() {
+    var user = firebase.auth().currentUser;
     $('#auth').hide();
     $('#greeting > span').empty();
-    $("#greeting").prepend("<span>Nice to see you again - now you can look at your saved Points of Interest </span>");
+    $("#greeting").prepend("<span>Nice to see you, " 
+            + user.displayName + 
+            " - now you can look at your saved Points of Interest </span>");
+    $('#btn-user').show();
     $('#btn-logout').show();
 };
+
+//  =================================================
+//  function to show sign-in info and buttons when
+//  not logged on; hide buttons to log off
+//  =================================================
 
 function showSignIn() {
     $('#auth').show();
     $('#greeting > span').empty();
+    $('#btn-user').hide();
+    console.log('before logout');
     $('#btn-logout').hide();
+    console.log('after logout');
+};
+//  =================================================
+//  function to update user profile to include name
+//  =================================================
+
+function addName(name) {
+
+    var user = firebase.auth().currentUser;
+    user.updateProfile({
+      displayName: name,
+    }).then(function() {
+      // Update successful, add name in /user record.
+        var userUid = firebase.auth().currentUser.uid;
+        var usersDir = database.ref("/"+userUid);
+        var rec = {
+            name: name
+        }
+        var newRec = usersDir.push(rec).key;
+        console.log('newRec = '+newRec);
+    }, function(error) {
+      alert(errorMessage);
+    });
 };
 
-// ============================================================
-// Blake, you can tweak this to populate your p.o.i. list
-// ============================================================
-//
-// function populateList() {
-//     // empty the table
-//     $("#train-table > tbody").empty();
-//     // event listener
-//     database.ref().on("child_added", function(childSnapshot, prevChildKey) {
-//         console.log(childSnapshot.val());
-//         // Store everything into a variable.
-//         var trainName = childSnapshot.val().name;
-//         var trainDest = childSnapshot.val().dest;
-//         var trainTime = (childSnapshot.val().time);
-//         var trainFreq = parseInt(childSnapshot.val().freq);
-//         var trainUser = (childSnapshot.val().user);
-//         // train Info
-//         console.log(trainName);
-//         console.log(trainDest);
-//         console.log(trainTime + typeof(trainTime));
-//         console.log(trainFreq + typeof(trainFreq));
-//         //   Calculate the frequency
-//         var minArrival = compDates(trainTime, trainFreq);
-//         console.log('minArrival ' + minArrival);
-//         var arrivalTime = moment().add(minArrival, 'minutes').format('HH:mm');
-//         // Add each train's data into the table
-//         var loggedUser = firebase.auth().currentUser;
-//         console.log('user = ' + loggedUser);
+function savedPoi() {
+    var userUid = firebase.auth().currentUser.uid;
+    var usersDir = database.ref("/"+userUid);
+    
+    usersDir.on('value', function(childSnapshot) {
+        snapshot  = childSnapshot;
+        var object = JSON.stringify(snapshot);
+        console.log('user key ' + snapshot.key);
+        console.log('user object ' + object);
+    });
+};
 
-//         console.log('trainUser = ' + trainUser);
-//         // adding a row in the html 
-//         if ((loggedUser == null) || (loggedUser == "") || (trainUser == loggedUser.uid)) {
-//             $("#train-table > tbody").prepend("<tr><td>" + trainName + "</td><td>" + trainDest + "</td><td>" +
-//                 trainFreq + "</td><td>" + arrivalTime + "</td><td>" + minArrival + "</td>");
-//         };
-//     });
-// };
+//  =================================================
+//  Authentication
+//  =================================================
 
-// Authentication
+//  =================================================
+//  event handler to determine if user logged on/off
+//  state has changed
+//  =================================================
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+    showLogon();
+    var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
+        console.log('user'+user);
+        $('.div-save').append(btn);
+  } 
+  else {
+    // No user is signed in.
+    showSignIn();
+    console.log('user'+user);
+    $('.btn-save').remove();
+  }
+});
+//  =================================================
+//  event handler for login/Register link
+//  =================================================
+
+$('.flipper-btn').click(function(){
+    console.log('flip = ', $('.flip').find('.card'));
+    $('.flip').find('.card').toggleClass('flipped');
+    console.log("flipped");
+});
 
 $('#btn-login').on("click", function() {
     var email = $('#email').val().trim();
@@ -83,6 +132,7 @@ $('#btn-login').on("click", function() {
         .then(function(result) {
             showLogon();
             console.log('uid ' + auth.currentUser.uid);
+            savedPoi()
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -96,27 +146,35 @@ $('#btn-login').on("click", function() {
             console.log(error);
         });
 });
+//  =================================================
+//  Sign-In event
+//  =================================================
 
 $('#btn-signup').on("click", function() {
+    var name = $('#name').val().trim();
     var email = $('#email').val().trim();
     var pass = $('#password').val().trim();
     console.log('login ' + email);
     console.log('password ' + password);
 
     var auth = firebase.auth();
-    
     console.log('auth ' + auth);
 
     // create user
     var promise = auth.createUserWithEmailAndPassword(email, pass)
         .then(function(result) {
-
+            addName(name);
             showLogon();
+            savedPoi();
         })
         .catch(function (error) {
             console.log(error);
     });
 });
+
+//  =================================================
+//  Logout event
+//  =================================================
 
 $('#btn-logout').on("click", function() {
     firebase.auth().signOut();
@@ -124,19 +182,74 @@ $('#btn-logout').on("click", function() {
     $('#password').val('');
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    showLogon();
-    // ================= TO DO: add below func when integrated
-    // populateList();
-    // =======================================================
-  } 
-  else {
-    // No user is signed in.
-    showSignIn();
-    // ================= TO DO: add below func when integrated
-    // populateList();
-    // =======================================================
-  }
+//  =================================================
+//  Saving the point of interest to Firebase
+//  =================================================
+
+$(document.body).on("click", '.btn-save', function() {
+    
+    // getting the data from the DOM
+    poiKey = ($(this).siblings('h3').text());
+    poiRating = $(this).siblings(".poi-rating").text();
+    poiAddress = $(this).siblings('.poi-address').text();
+    
+    var userUid = firebase.auth().currentUser.uid;
+    //  setting up the unique URL for the write/delete
+    var usersDir = database.ref("/"+userUid+"/"+poiKey);
+    //  if the button clicked is equal to save, 
+    //  we prepare the object to be written to firebase
+    if ($(this).text() == "Save") {
+        
+        var poi = {
+            desc    : "",
+            imgUrl  : "",
+            lat     : "",
+            long    : "",
+            name    : poiKey,
+            rating  : poiRating,
+            address : poiAddress
+        };
+        
+        // checking that the record does not exist in the database 
+        console.log('child object =' + usersDir); 
+
+        var childExists = false;
+        snapshot.forEach(function(childSnapshot) {
+            var key = childSnapshot.key;
+            console.log('===============================');
+            console.log('key ' + key);
+            console.log('poiKey ' + poiKey);
+            console.log('===============================');
+            if (key == poiKey) {
+                childExists = true;
+                console.log('TRUE');
+                return;               
+            }
+        }); 
+
+        if (!childExists) {
+            var poiRec = usersDir.set(poi);
+            
+            console.log('**************');
+            console.log('key ' + poiKey);
+        }
+        else {
+            alert('already saved!')
+        } 
+        $(this).text("Delete");
+        $(this).removeClass('btn-default')
+            .addClass('btn-danger')
+            .val(poiKey);
+    }
+    else if ($(this).text() == "Delete") {
+        // btnKey =  $(this).val();
+        console.log('poiKey ' + poiKey);
+        var poiKey = database.ref("/"+userUid+"/"+poiKey);
+        poiKey.remove();
+        $(this).text("Save");
+        $(this).removeClass('btn-danger')
+            .addClass('btn-default');
+    };
 });
+
+

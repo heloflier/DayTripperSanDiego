@@ -76,8 +76,12 @@ function callback(results, status) {
 		console.log(results[0].name);
 		console.log(results[1].name);
 		console.log("PHOTOS");
-		console.log(picUrl);
+		
 		$(".placespanel").empty(); 
+		// var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
+		// var user = firebase.auth().currentUser;
+  //       console.log('user ' + user);
+
 		for(var i=0; i<results.length;i++){
 			try{
 				//Title of place
@@ -97,6 +101,11 @@ function callback(results, status) {
 				title.css("margin","15px 0px 0px 0px");
 				$(".placespanel").append(title);
 
+				// // Adding save button if user is logged in
+				// if (user != null) {
+				// 	console.log('button append');
+    //     			title.append(btn);
+				// };
 				//Getting Picture of each place and append it to div
 				var imgDiv = $("<div>")
 				var picUrl = results[i].photos[0].getUrl({'maxWidth': 1000});
@@ -105,6 +114,7 @@ function callback(results, status) {
 				picDiv.css("max-width","100%");
 				imgDiv.append(picDiv);
 				$(".placespanel").append(imgDiv);
+				console.log(picUrl);			
 			}
 			catch(err){
 			}
@@ -132,16 +142,11 @@ function weatherMAP(latitude,longitude){
       });
   };
 
-
 var day =[];
 console.log("DATE:"+moment().format('dddd MMM Do'));
 
-
-
 function callWeather(response) {
       
-	  
-
       $('#wx').empty();
       $("#5days").empty();
       for (var i = 0; i < 5; i++) {
