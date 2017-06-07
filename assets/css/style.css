@@ -17,10 +17,6 @@
     }
 }
 
-#btn-logout {
-    float: right;
-}
-
 .date {
     text-align: center;
 }
@@ -54,6 +50,18 @@ img {
 #map {
         visibility: hidden;
       }
+
+#btn-user,
+#btn-logout {
+    display: inline-block;
+}
+
+#btn-user,
+#btn-logout,
+#auth,
+#greeting {
+    display: none;
+}
 
 /*
 #mapPic {
