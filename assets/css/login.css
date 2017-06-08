@@ -20,6 +20,12 @@ p{
 	margin-top: 10px;
 	text-align: center;
 }
+.logo {
+	-webkit-text-stroke: 1px black;
+}
+.logo-bottom {
+	padding-top: -30px;
+}
 .blue{
 	color: #337ab7;
 }
@@ -53,8 +59,8 @@ perspective: 800;
     position: relative;
 }
 .flip .card.flipped {
-  -webkit-transform: rotatey(-180deg);
-    transform: rotatey(-180deg);
+  -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
 }
 .flip .card {
 
@@ -78,8 +84,8 @@ perspective: 800;
 
 }
 .flip .card .back {
-  -webkit-transform: rotatey(-180deg);
-    transform: rotatey(-180deg);
+  -webkit-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
 }
 .inner{margin:0px !important;}
 
