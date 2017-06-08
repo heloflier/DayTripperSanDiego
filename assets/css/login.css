@@ -20,6 +20,12 @@ p{
 	margin-top: 10px;
 	text-align: center;
 }
+.logo {
+	-webkit-text-stroke: 1px black;
+}
+.logo-bottom {
+	padding-top: -30px;
+}
 .blue{
 	color: #337ab7;
 }
