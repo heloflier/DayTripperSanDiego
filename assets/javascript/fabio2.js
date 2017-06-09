@@ -7,12 +7,12 @@
 //  =================================================
 
 var config = {
-apiKey: "AIzaSyDeRYoE5fWhh3ZA7aN-UDKOiNgP2hI_N6A",
-authDomain: "daytrippersandiego.firebaseapp.com",
-databaseURL: "https://daytrippersandiego.firebaseio.com",
-projectId: "daytrippersandiego",
-storageBucket: "daytrippersandiego.appspot.com",
-messagingSenderId: "616812924303"
+    apiKey: "AIzaSyDeRYoE5fWhh3ZA7aN-UDKOiNgP2hI_N6A",
+    authDomain: "daytrippersandiego.firebaseapp.com",
+    databaseURL: "https://daytrippersandiego.firebaseio.com",
+    projectId: "daytrippersandiego",
+    storageBucket: "daytrippersandiego.appspot.com",
+    messagingSenderId: "616812924303"
 };
 
 firebase.initializeApp(config);
@@ -30,8 +30,8 @@ function showLogon() {
     $('#auth').hide();
     $('#greeting > span').empty();
     $("#greeting").prepend("<span>Nice to see you, " 
-            + user.displayName + 
-            " - now you can look at your saved Points of Interest </span>");
+        + user.displayName + 
+        " - now you can look at your saved Points of Interest </span>");
     $('#greeting').show();
     $('#btn-user').show();
     $('#btn-logout').show();
@@ -55,22 +55,25 @@ function showSignIn() {
 //  =================================================
 
 function addName(name) {
+    var userUid = firebase.auth().currentUser.uid;
+    //  setting up the unique URL for the write/delete
+    var usersDir = database.ref("/"+userUid+"/"+"asdfghj");
 
     var user = firebase.auth().currentUser;
     user.updateProfile({
       displayName: name,
-    }).then(function() {
+  }).then(function() {
       // Update successful, add name in /user record.
-        var userUid = firebase.auth().currentUser.uid;
-        var usersDir = database.ref("/"+userUid);
-        var rec = {
-            name: name
-        }
-        var newRec = usersDir.push(rec).key;
-        console.log('newRec = '+newRec);
-    }, function(error) {
-      alert(errorMessage);
-    });
+      var userUid = firebase.auth().currentUser.uid;
+      var usersDir = database.ref("/"+userUid);
+      var rec = {
+        name: name,
+    }
+    var newRec = usersDir.set(rec);
+    console.log('newRec = '+newRec);
+}, function(error) {
+  alert(errorMessage);
+});
 };
 
 function savedPoi() {
@@ -85,6 +88,84 @@ function savedPoi() {
     });
 };
 
+function populateList() {
+    $(".placespanel").empty();
+
+    var nameLoggedIn = firebase.auth().currentUser.displayName;
+
+    console.log(snapshot.val());
+    console.log(JSON.stringify(snapshot));
+
+    snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        snap= childSnapshot.val();
+
+        console.log(key);
+        console.log(firebase.auth().currentUser.displayName)
+        console.log(snap.name);
+        console.log(childSnapshot);
+        if (snap.name == nameLoggedIn) {
+            console.log('first record, dummy')
+            return
+        }
+      
+        // var poi = {
+        //     desc    : "",
+        //     imgUrl  : poiImgUrl,
+        //     lat     : "",
+        //     long    : "",
+        //     name    : poiKey,
+        //     rating  : poiRating,
+        //     address : poiAddress
+        // };
+
+        //Title of place
+        var title = $("<div class='div-save'>");
+        title.append("<h3>"+numIndex+". "+"<span class='placetitle'>"+key+"</span></h3>");
+        //title.append("<span>");
+        var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
+        if (firebase.auth().currentUser != null) {
+        //  console.log('button append');
+        title.append(btn);
+    };
+
+        //Formatting title css
+        title.css("background-color","black");
+        title.css("color","white");
+        title.css("text-align","center");
+        title.css("padding","3px 0px 7px 0px");
+        title.css("margin","15px 0px 0px 0px");
+        $(".placespanel").append(title);        
+
+        var placesInfo = $("<div>");
+
+        var picture = $("<img>");
+        var picUrl = snap.imgUrl;;
+        var pictureDiv = $("<div>");
+        picture.attr("src", picUrl);
+        pictureDiv.append(picture);
+        pictureDiv.css("width","40%");
+        pictureDiv.css("float","left");
+
+        //Address and info of places
+        var picInfo    = $("<div>");
+        //Rating if exist
+        picInfo.append("<p class='poi-rating'><b>Rating:</b> "
+            +snap.rating+"</p>");
+
+        picInfo.append("<p class='poi-address'>"+"<b>Address:</b> "+snap.address+"</p>");
+        picInfo.css("width","60%")
+        picInfo.css("float","right");
+        picInfo.css("margin-top","30px")
+       
+        placesInfo.append(pictureDiv);
+        placesInfo.append(picInfo);
+        placesInfo.append('<br style="clear:both;"/>');
+
+        $(".placespanel").append(placesInfo);
+    });
+};
+
 //  =================================================
 //  Authentication
 //  =================================================
@@ -96,19 +177,19 @@ function savedPoi() {
 
 firebase.auth().onAuthStateChanged(function(user) {
     console.log('onAuthStateChanged');
-  if (user) {
+    if (user) {
     // User is signed in.
     showLogon();
     var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
-        console.log('user'+user);
-        $('.div-save').append(btn);
-  } 
-  else {
+    console.log('user'+user);
+    $('.div-save').append(btn);
+} 
+else {
     // No user is signed in.
     showSignIn();
     console.log('user'+user);
     $('.btn-save').remove();
-  }
+}
 });
 //  =================================================
 //  event handler for login/Register link
@@ -133,15 +214,15 @@ $('#btn-login').on("click", function(event) {
     console.log('auth ' + auth);
     // sign In
     var promise = auth.signInWithEmailAndPassword(email, pass)
-        .then(function(result) {
-            showLogon();
-            console.log('uid ' + auth.currentUser.uid);
-            savedPoi();
-            $("#myModal").modal("hide");
-        })
-        .catch(function (error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
+    .then(function(result) {
+        showLogon();
+        console.log('uid ' + auth.currentUser.uid);
+        savedPoi();
+        $("#myModal").modal("hide");
+    })
+    .catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
             // check password
             if (errorCode === 'auth/wrong-password') {
                 alert('Wrong password.');
@@ -168,14 +249,14 @@ $('#btn-signup').on("click", function(event) {
 
     // create user
     var promise = auth.createUserWithEmailAndPassword(email, pass)
-        .then(function(result) {
-            addName(name);
-            showLogon();
-            savedPoi();
-            $("#myModal").modal("hide");
-        })
-        .catch(function (error) {
-            console.log(error);
+    .then(function(result) {
+        addName(name);
+        showLogon();
+        savedPoi();
+        $("#myModal").modal("hide");
+    })
+    .catch(function (error) {
+        console.log(error);
     });
 });
 
@@ -194,7 +275,7 @@ $('#btn-logout').on("click", function() {
 //  =================================================
 
 $(document.body).on("click", '.btn-save', function() {
-    
+
     // getting the data from the DOM
     poiKey = $(this).siblings().find(".placetitle").html();
     console.log(poiKey);
@@ -211,7 +292,7 @@ $(document.body).on("click", '.btn-save', function() {
     //  if the button clicked is equal to save, 
     //  we prepare the object to be written to firebase
     if ($(this).text() == "Save") {
-        
+
         var poi = {
             desc    : "",
             imgUrl  : poiImgUrl,
@@ -251,8 +332,8 @@ $(document.body).on("click", '.btn-save', function() {
         } 
         $(this).text("Delete");
         $(this).removeClass('btn-default')
-            .addClass('btn-danger')
-            .val(poiKey);
+        .addClass('btn-danger')
+        .val(poiKey);
     }
     else if ($(this).text() == "Delete") {
         // btnKey =  $(this).val();
@@ -261,8 +342,12 @@ $(document.body).on("click", '.btn-save', function() {
         poiKey.remove();
         $(this).text("Save");
         $(this).removeClass('btn-danger')
-            .addClass('btn-default');
+        .addClass('btn-default');
     };
 });
 
+$(document.body).on("click", '#btn-user', function() {
+    console.log('show me');
+    populateList();
+})
 
