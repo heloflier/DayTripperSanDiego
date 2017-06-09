@@ -87,7 +87,7 @@ function callback(results, status) {
            title.append(btn);
         };
         //Hidden info in the title
-        var imageurl = $("<div class='imageurl'>");
+        var imageurl = $("<div class='poi-imgurl'>");
         imageurl.append(results[i].photos[0].getUrl({'maxWidth': 1000}));
         var address  = $("<div class='poi-address'>");
         address.append(results[i].vicinity);

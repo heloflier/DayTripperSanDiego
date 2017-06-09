@@ -200,6 +200,7 @@ $(document.body).on("click", '.btn-save', function() {
     console.log(poiKey);
     poiRating = $(this).siblings(".poi-rating").text();
     poiAddress = $(this).siblings('.poi-address').text();
+    poiImgUrl  = $(this).siblings('.poi-imgurl').text();
     console.log(poiAddress);
     console.log(poiRating);
 
@@ -213,7 +214,7 @@ $(document.body).on("click", '.btn-save', function() {
         
         var poi = {
             desc    : "",
-            imgUrl  : "",
+            imgUrl  : poiImgUrl,
             lat     : "",
             long    : "",
             name    : poiKey,
