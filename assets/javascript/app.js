@@ -17,21 +17,28 @@ var nearbyqueryURL = "";
 var map;
 var infowindow;
 var results;
+
+//Set point of interest to user's input
 $("#options").on("change", function(){
 	PoI = $(this).val();
 })
 
+
+//On submit search for places according to user input and load the map
 $("#searchplaces").on("submit", function(){
 	userinput   = $("#destination").val();
 	console.log(userinput);
 	console.log("here!");
 	nameofPOI   = $("#namepoi").val();
 	coordinatequeryURL = "https://maps.googleapis.com/maps/api/geocode/json?address="+userinput+"&key="+embedAPIkey;
+	$("#destination").empty();
+	$("#namepoi").empty();
 	event.preventDefault();
 	initMap();
 
 });
 
+//Loading the map according to user input and put in markers
 function initMap() {
 	$.ajax({
 		url: coordinatequeryURL,
@@ -65,18 +72,16 @@ function initMap() {
 function callback(results, status) {
 	if (status === google.maps.places.PlacesServiceStatus.OK) {
 		$(".placespanel").empty(); 
+		//Marker # index
+		numIndex = 1;
 		for(var i=0; i<results.length;i++){
 			try{
+
         //Title of place
         var title = $("<div class='div-save'>");
-        title.append("<h3>"+results[i].name+"</h3>");
-        //Rating on title if exist
-        if(results[i].rating!=undefined){
-        	title.append("<p class='poi-rating'>Rating: "
-        		+results[i].rating+"</p>");
-        }
-        //Address on Title
-        title.append("<p class='poi-address'>"+results[i].vicinity+"</p>");
+        title.append("<h3>"+numIndex+". "+results[i].name+"</h3>");
+
+        //Formatting title css
         title.css("background-color","black");
         title.css("color","white");
         title.css("text-align","center");
@@ -87,16 +92,43 @@ function callback(results, status) {
         // // Adding save button if user is logged in
         // if (user != null) {
         //  console.log('button append');
-    //          title.append(btn);
+    	//          title.append(btn);
         // };
         //Getting Picture of each place and append it to div
-        var imgDiv = $("<div>")
+        var placesInfo = $("<div>");
+
+        var picture = $("<img>");
         var picUrl = results[i].photos[0].getUrl({'maxWidth': 1000});
-        var picDiv = $("<img>");
-        picDiv.attr("src", picUrl);
-        picDiv.css("max-width","100%");
-        imgDiv.append(picDiv);
-        $(".placespanel").append(imgDiv);
+        var pictureDiv = $("<div>");
+        picture.attr("src", picUrl);
+        pictureDiv.append(picture);
+        pictureDiv.css("width","40%");
+        pictureDiv.css("float","left");
+
+
+
+        //Address and info of places
+        var picInfo    = $("<div>");
+        //Rating if exist
+        if(results[i].rating!=undefined){
+        	picInfo.append("<p class='poi-rating'><b>Rating:</b> "
+        		+results[i].rating+"</p>");
+        }
+        picInfo.append("<p class='poi-address'>"+"<b>Address:</b> "+results[i].vicinity+"</p>");
+        picInfo.css("width","60%")
+        picInfo.css("float","right");
+        picInfo.css("margin-top","30px")
+
+        
+        placesInfo.append(pictureDiv);
+        placesInfo.append(picInfo);
+        placesInfo.append('<br style="clear:both;"/>');
+
+
+        $(".placespanel").append(placesInfo);
+
+
+        //Create markers on the map
         createMarker(results[i]);     
     }
     catch(err){

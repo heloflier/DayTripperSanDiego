@@ -106,3 +106,6 @@ body {
     color: snow;
 }
 
+#map {
+    height: 500px;
+}
