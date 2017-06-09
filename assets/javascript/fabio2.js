@@ -196,10 +196,12 @@ $('#btn-logout').on("click", function() {
 $(document.body).on("click", '.btn-save', function() {
     
     // getting the data from the DOM
-    poiKey = $('#placetitle').text();
+    poiKey = $(this).siblings().find(".placetitle").html();
     console.log(poiKey);
-    //poiRating = $(this).siblings(".poi-rating").text();
-    //poiAddress = $(this).siblings('.poi-address').text();
+    poiRating = $(this).siblings(".poi-rating").text();
+    poiAddress = $(this).siblings('.poi-address').text();
+    console.log(poiAddress);
+    console.log(poiRating);
 
     
     var userUid = firebase.auth().currentUser.uid;
@@ -223,6 +225,7 @@ $(document.body).on("click", '.btn-save', function() {
         console.log('child object =' + usersDir); 
 
         var childExists = false;
+        console.log(JSON.stringify(snapshot));
         snapshot.forEach(function(childSnapshot) {
             var key = childSnapshot.key;
             console.log('===============================');
