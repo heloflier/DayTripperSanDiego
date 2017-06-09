@@ -79,7 +79,8 @@ function callback(results, status) {
 
         //Title of place
         var title = $("<div class='div-save'>");
-        title.append("<h3>"+numIndex+". "+results[i].name+"</h3>");
+        title.append("<h3>"+numIndex+". "+"<span id='placetitle'>"+results[i].name+"</span></h3>");
+        //title.append("<span>");
         var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
         if (firebase.auth().currentUser != null) {
         //  console.log('button append');

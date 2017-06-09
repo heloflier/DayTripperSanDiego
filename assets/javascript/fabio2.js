@@ -196,10 +196,11 @@ $('#btn-logout').on("click", function() {
 $(document.body).on("click", '.btn-save', function() {
     
     // getting the data from the DOM
-    poiKey = ($(this).siblings('h3').text());
+    poiKey = $('#placetitle').text();
+    console.log(poiKey);
     //poiRating = $(this).siblings(".poi-rating").text();
     //poiAddress = $(this).siblings('.poi-address').text();
-    
+
     
     var userUid = firebase.auth().currentUser.uid;
     //  setting up the unique URL for the write/delete
