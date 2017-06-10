@@ -25,12 +25,17 @@ var snapshot = "";
 //  and buttons on log-on
 //  =================================================
 
-function showLogon() {
-    var user = firebase.auth().currentUser;
+function showLogon(name) {
+    var user = firebase.auth().currentUser.displayName;
+    console.log('showLogon user = ', user);
+    if (user == null || user == undefined) {
+        console.log('inside ')
+    }
+
     $('#auth').hide();
     $('#greeting > span').empty();
     $("#greeting").prepend("<span>Nice to see you, " 
-        + user.displayName + 
+        + user + 
         " - now you can look at your saved Points of Interest </span>");
     $('#greeting').show();
     $('#btn-user').show();
@@ -57,24 +62,29 @@ function showSignIn() {
 function addName(name) {
     var userUid = firebase.auth().currentUser.uid;
     //  setting up the unique URL for the write/delete
-    var usersDir = database.ref("/"+userUid+"/"+"asdfghj");
 
     var user = firebase.auth().currentUser;
     user.updateProfile({
-      displayName: name,
-  }).then(function() {
-      // Update successful, add name in /user record.
-      var userUid = firebase.auth().currentUser.uid;
-      var usersDir = database.ref("/"+userUid);
-      var rec = {
-        name: name,
-    }
-    var newRec = usersDir.set(rec);
-    console.log('newRec = '+newRec);
-}, function(error) {
-  alert(errorMessage);
-});
+        displayName: name,
+        }).then(function() {
+            // Update successful, add name in /user record.
+            var userUid = firebase.auth().currentUser.uid;
+            var usersDir = database.ref("/"+userUid);
+            var rec = {
+                name: name,
+            }
+            var newRec = usersDir.set(rec);
+            console.log('newRec = '+newRec);
+            showLogon();
+        },  function(error) {
+            alert(errorMessage);
+            });
 };
+
+//  =================================================
+//  function to save the Point of Interest 
+//  under the user's URL
+//  =================================================
 
 function savedPoi() {
     var userUid = firebase.auth().currentUser.uid;
@@ -87,6 +97,12 @@ function savedPoi() {
         console.log('user object ' + object);
     });
 };
+
+//  =================================================
+//  function to populate the list of Points 
+//  Interest with the ones saved under the user.
+//  Only shows when the user is logged in.
+//  =================================================
 
 function populateList() {
     $(".placespanel").empty();
@@ -108,16 +124,6 @@ function populateList() {
             console.log('first record, dummy')
             return
         }
-      
-        // var poi = {
-        //     desc    : "",
-        //     imgUrl  : poiImgUrl,
-        //     lat     : "",
-        //     long    : "",
-        //     name    : poiKey,
-        //     rating  : poiRating,
-        //     address : poiAddress
-        // };
 
         //Title of place
         var title = $("<div class='div-save'>");
@@ -157,7 +163,7 @@ function populateList() {
         picInfo.css("width","60%")
         picInfo.css("float","right");
         picInfo.css("margin-top","30px")
-       
+
         placesInfo.append(pictureDiv);
         placesInfo.append(picInfo);
         placesInfo.append('<br style="clear:both;"/>');
@@ -166,11 +172,12 @@ function populateList() {
     });
 };
 
-//  =================================================
+//  =============================================================
 //  Authentication
-//  =================================================
+//  =============================================================
 
 //  =================================================
+
 //  event handler to determine if user logged on/off
 //  state has changed
 //  =================================================
@@ -179,7 +186,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     console.log('onAuthStateChanged');
     if (user) {
     // User is signed in.
-    showLogon();
+    // showLogon();
     var btn = $('<button type="button" class="btn btn-default btn-save">Save</button>');
     console.log('user'+user);
     $('.div-save').append(btn);
@@ -247,15 +254,21 @@ $('#btn-signup').on("click", function(event) {
     var auth = firebase.auth();
     console.log('auth ' + auth);
 
+    if (name == "") {
+        alert("Please tell me what to call you. If you don't, I will find an appropriate name for you...");
+    }
+
     // create user
     var promise = auth.createUserWithEmailAndPassword(email, pass)
     .then(function(result) {
+        console.log("sign-in");
         addName(name);
-        showLogon();
+        // showLogon();
         savedPoi();
         $("#myModal").modal("hide");
     })
     .catch(function (error) {
+        alert(error.code)
         console.log(error);
     });
 });
@@ -272,6 +285,7 @@ $('#btn-logout').on("click", function() {
 
 //  =================================================
 //  Saving the point of interest to Firebase
+//  to the logged-in user URL
 //  =================================================
 
 $(document.body).on("click", '.btn-save', function() {
@@ -345,6 +359,11 @@ $(document.body).on("click", '.btn-save', function() {
         .addClass('btn-default');
     };
 });
+
+//  =================================================
+//  Event listener: when the 'show me' button
+//  is clicked, show the user's Points of Interest
+//  =================================================
 
 $(document.body).on("click", '#btn-user', function() {
     console.log('show me');
