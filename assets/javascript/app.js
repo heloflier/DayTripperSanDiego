@@ -1,6 +1,6 @@
 
 
-var embedAPIkey = require('./GeoAPIKeys');
+var embedAPIkey = "AIzaSyADcGH--swBBpg6-7tYcluAngele15Sz6M";
 var userinput;
 var PoI = "food";
 var nameofPOI = "";
