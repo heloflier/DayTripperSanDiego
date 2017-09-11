@@ -6,14 +6,7 @@
 //  Initialize Firebase
 //  =================================================
 
-var config = {
-    apiKey: "AIzaSyDeRYoE5fWhh3ZA7aN-UDKOiNgP2hI_N6A",
-    authDomain: "daytrippersandiego.firebaseapp.com",
-    databaseURL: "https://daytrippersandiego.firebaseio.com",
-    projectId: "daytrippersandiego",
-    storageBucket: "daytrippersandiego.appspot.com",
-    messagingSenderId: "616812924303"
-};
+var config = require('./FirebaseKeys');
 
 firebase.initializeApp(config);
 
